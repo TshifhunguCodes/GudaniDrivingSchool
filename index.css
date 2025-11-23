@@ -1443,8 +1443,8 @@ section {
 
 /* Logo Image Replacement Styles - Mobile Compatible */
 .logo-image {
-    width: 35px;
-    height: 35px;
+    width: 50px;
+    height: 50px;
     object-fit: contain;
     border-radius: 4px;
     display: block;
@@ -1452,38 +1452,38 @@ section {
 
 /* Footer logo */
 .footer-info .logo-image {
-    width: 30px;
-    height: 30px;
+    width: 45px;
+    height: 45px;
 }
 
 /* Tablet (768px and up) */
 @media (min-width: 768px) {
     .logo-image {
-        width: 40px;
-        height: 40px;
+        width: 60px;
+        height: 60px;
     }
     .footer-info .logo-image {
-        width: 35px;
-        height: 35px;
+        width: 50px;
+        height: 50px;
     }
 }
 
 /* Desktop (992px and up) */
 @media (min-width: 992px) {
     .logo-image {
-        width: 45px;
-        height: 45px;
+        width: 70px;
+        height: 70px;
     }
 }
 
 /* Small phones (480px and down) */
 @media (max-width: 480px) {
     .logo-image {
-        width: 32px;
-        height: 32px;
+        width: 45px;
+        height: 45px;
     }
     .footer-info .logo-image {
-        width: 28px;
-        height: 28px;
+        width: 40px;
+        height: 40px;
     }
 }

@@ -286,27 +286,7 @@ section {
     border-radius: 2px;
 }
 
-/* Logo Image Styles */
-.logo-image {
-    width: 40px;  /* Same size as the car icon */
-    height: 40px;
-    object-fit: contain;
-    border-radius: 5px; /* Optional: rounded corners */
-}
 
-/* For larger screens */
-@media (min-width: 769px) {
-    .logo-image {
-        width: 45px;
-        height: 45px;
-    }
-}
-
-/* For footer logo (slightly smaller) */
-.footer-info .logo-image {
-    width: 35px;
-    height: 35px;
-}
 
 /* Hero Section with Image Slideshow */
 .hero {
@@ -1458,4 +1438,165 @@ section {
         padding-left: max(15px, env(safe-area-inset-left));
         padding-right: max(15px, env(safe-area-inset-right));
     }
+}
+
+
+
+
+/* Logo Image Styles - Mobile First Approach */
+.logo-image {
+    width: 35px;  /* Smaller for mobile first */
+    height: 35px;
+    object-fit: contain;
+    border-radius: 4px;
+    display: block; /* Ensure proper rendering */
+}
+
+/* Logo container adjustments */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-text h1 {
+    font-size: 1.3rem; /* Smaller for mobile */
+    line-height: 1.2;
+}
+
+.logo-text span {
+    font-size: 0.7rem; /* Smaller for mobile */
+}
+
+/* Footer logo adjustments */
+.footer-info .logo-image {
+    width: 30px;
+    height: 30px;
+}
+
+.footer-info .logo-text h3 {
+    font-size: 1.2rem;
+}
+
+.footer-info .logo-text span {
+    font-size: 0.65rem;
+}
+
+/* Tablet devices (768px and up) */
+@media (min-width: 768px) {
+    .logo-image {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .logo-text h1 {
+        font-size: 1.5rem;
+    }
+    
+    .logo-text span {
+        font-size: 0.8rem;
+    }
+    
+    .footer-info .logo-image {
+        width: 35px;
+        height: 35px;
+    }
+}
+
+/* Desktop devices (992px and up) */
+@media (min-width: 992px) {
+    .logo-image {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .logo {
+        gap: 12px;
+    }
+}
+
+/* Large desktop devices (1200px and up) */
+@media (min-width: 1200px) {
+    .logo-image {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+/* Extra small devices (phones, 480px and down) */
+@media (max-width: 480px) {
+    .logo-image {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .logo-text h1 {
+        font-size: 1.1rem;
+    }
+    
+    .logo-text span {
+        font-size: 0.6rem;
+    }
+    
+    .logo {
+        gap: 8px;
+    }
+}
+
+/* Very small devices (360px and down) */
+@media (max-width: 360px) {
+    .logo-image {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .logo-text h1 {
+        font-size: 1rem;
+    }
+    
+    .logo-text span {
+        font-size: 0.55rem;
+    }
+}
+
+/* Safe area insets for notched phones */
+@supports(padding: max(0px)) {
+    .logo {
+        padding-left: max(0px, env(safe-area-inset-left));
+    }
+}
+
+/* Prevent image layout shifts */
+.logo-image {
+    aspect-ratio: 1 / 1;
+}
+
+/* Ensure logo doesn't break navbar layout */
+.navbar .logo {
+    flex-shrink: 0; /* Prevent logo from shrinking */
+}
+
+/* Loading state for logo */
+.logo-image {
+    background-color: transparent;
+}
+
+/* Fallback if image fails to load */
+.logo-image:before {
+    content: "GDS";
+    display: none;
+    width: 100%;
+    height: 100%;
+    background: var(--primary);
+    color: white;
+    border-radius: 4px;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.logo-image[src=""]:before,
+.logo-image:not([src]):before {
+    display: flex;
 }

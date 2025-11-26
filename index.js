@@ -1,3 +1,4 @@
+
 // Mobile Navigation Toggle
 const hamburger = document.getElementById('hamburger');
 const navMenu = document.getElementById('navMenu');
@@ -149,4 +150,102 @@ const observer = new IntersectionObserver((entries) => {
 // Observe elements for animation
 document.querySelectorAll('.service-card, .pricing-card, .success-card').forEach(el => {
     observer.observe(el);
+});
+
+
+// Discount Popup Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const popup = document.getElementById('discountPopup');
+    const smallIcon = document.getElementById('smallIcon');
+    const closePopup = document.getElementById('closePopup');
+    const laterBtn = document.getElementById('laterBtn');
+    const claimBtn = document.querySelector('.popup-buttons-container .btn-primary');
+    
+    let iconTimer;
+    
+    // Show full popup when website starts
+    setTimeout(() => {
+        showFullPopup();
+    }, 1000); // Show after 1 second
+    
+    // Show full popup function
+    function showFullPopup() {
+        popup.classList.add('active');
+        smallIcon.classList.remove('active');
+        document.body.style.overflow = 'hidden';
+        clearTimeout(iconTimer);
+    }
+    
+    // Show small icon function
+    function showSmallIcon() {
+        popup.classList.remove('active');
+        smallIcon.classList.add('active');
+        document.body.style.overflow = '';
+        
+        // Set timer to show small icon again after 3 seconds
+        clearTimeout(iconTimer);
+        iconTimer = setTimeout(() => {
+            if (!popup.classList.contains('active')) {
+                smallIcon.classList.add('active');
+            }
+        }, 3000);
+    }
+    
+    // Close popup and show small icon
+    function closeToIcon() {
+        showSmallIcon();
+    }
+    
+    // Event listeners
+    closePopup.addEventListener('click', closeToIcon);
+    laterBtn.addEventListener('click', closeToIcon);
+    
+    // Claim button - close popup but don't show icon immediately
+    claimBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        popup.classList.remove('active');
+        document.body.style.overflow = '';
+        
+        // Show small icon after 3 seconds
+        setTimeout(() => {
+            smallIcon.classList.add('active');
+        }, 3000);
+        
+        // Scroll to contact section
+        const contactSection = document.getElementById('contact');
+        if (contactSection) {
+            contactSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    });
+    
+    // Close when clicking outside popup content
+    popup.addEventListener('click', function(e) {
+        if (e.target === popup) {
+            closeToIcon();
+        }
+    });
+    
+    // Close with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && popup.classList.contains('active')) {
+            closeToIcon();
+        }
+    });
+    
+    // Small icon click - show full popup
+    smallIcon.addEventListener('click', function() {
+        showFullPopup();
+    });
+    
+    // Hide small icon when scrolling
+    let scrollTimer;
+    window.addEventListener('scroll', function() {
+        smallIcon.classList.remove('active');
+        clearTimeout(scrollTimer);
+        scrollTimer = setTimeout(() => {
+            if (!popup.classList.contains('active')) {
+                smallIcon.classList.add('active');
+            }
+        }, 3000);
+    });
 });

@@ -1680,3 +1680,52 @@ section {
         right: 15px;
     }
 }
+
+/* Position small icons differently so they don't overlap */
+#smallIcon1 {
+    bottom: 20px;
+    right: 20px;
+}
+
+#smallIcon2 {
+    bottom: 90px; /* Position above the first icon */
+    right: 20px;
+}
+
+/* Mobile positioning for multiple icons */
+@media (max-width: 768px) {
+    #smallIcon1 {
+        bottom: 15px;
+        right: 15px;
+    }
+    
+    #smallIcon2 {
+        bottom: 80px;
+        right: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    #smallIcon1 {
+        bottom: 15px;
+        right: 15px;
+    }
+    
+    #smallIcon2 {
+        bottom: 75px;
+        right: 15px;
+    }
+}
+
+/* Very small screens - stack icons */
+@media (max-width: 360px) {
+    #smallIcon1 {
+        bottom: 15px;
+        right: 15px;
+    }
+    
+    #smallIcon2 {
+        bottom: 70px;
+        right: 15px;
+    }
+}

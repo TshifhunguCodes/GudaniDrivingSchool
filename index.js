@@ -153,99 +153,219 @@ document.querySelectorAll('.service-card, .pricing-card, .success-card').forEach
 });
 
 
-// Discount Popup Functionality
+// Dual Popup Functionality
 document.addEventListener('DOMContentLoaded', function() {
-    const popup = document.getElementById('discountPopup');
-    const smallIcon = document.getElementById('smallIcon');
-    const closePopup = document.getElementById('closePopup');
-    const laterBtn = document.getElementById('laterBtn');
-    const claimBtn = document.querySelector('.popup-buttons-container .btn-primary');
+    // Popup 1 Elements
+    const popup1 = document.getElementById('discountPopup1');
+    const smallIcon1 = document.getElementById('smallIcon1');
+    const closePopup1 = document.getElementById('closePopup1');
+    const laterBtn1 = document.getElementById('laterBtn1');
     
-    let iconTimer;
+    // Popup 2 Elements
+    const popup2 = document.getElementById('discountPopup2');
+    const smallIcon2 = document.getElementById('smallIcon2');
+    const closePopup2 = document.getElementById('closePopup2');
+    const laterBtn2 = document.getElementById('laterBtn2');
     
-    // Show full popup when website starts
+    // Common Elements
+    const claimBtns = document.querySelectorAll('.popup-buttons-container .btn-primary');
+    
+    let iconTimer1, iconTimer2;
+    let currentPopup = null;
+    
+    // Show popups in sequence when website starts
     setTimeout(() => {
-        showFullPopup();
-    }, 1000); // Show after 1 second
+        showPopup1();
+    }, 1000);
     
-    // Show full popup function
-    function showFullPopup() {
-        popup.classList.add('active');
-        smallIcon.classList.remove('active');
+    // Show first popup
+    function showPopup1() {
+        hideAllPopups();
+        popup1.classList.add('active');
+        currentPopup = 1;
         document.body.style.overflow = 'hidden';
-        clearTimeout(iconTimer);
+        document.documentElement.style.overflow = 'hidden';
+        clearTimeout(iconTimer1);
     }
     
-    // Show small icon function
-    function showSmallIcon() {
-        popup.classList.remove('active');
-        smallIcon.classList.add('active');
+    // Show second popup
+    function showPopup2() {
+        hideAllPopups();
+        popup2.classList.add('active');
+        currentPopup = 2;
+        document.body.style.overflow = 'hidden';
+        document.documentElement.style.overflow = 'hidden';
+        clearTimeout(iconTimer2);
+    }
+    
+    // Hide all popups
+    function hideAllPopups() {
+        popup1.classList.remove('active');
+        popup2.classList.remove('active');
         document.body.style.overflow = '';
+        document.documentElement.style.overflow = '';
+        currentPopup = null;
+    }
+    
+    // Show small icon for popup 1
+    function showSmallIcon1() {
+        hideAllPopups();
+        smallIcon1.classList.add('active');
         
-        // Set timer to show small icon again after 3 seconds
-        clearTimeout(iconTimer);
-        iconTimer = setTimeout(() => {
-            if (!popup.classList.contains('active')) {
-                smallIcon.classList.add('active');
+        clearTimeout(iconTimer1);
+        iconTimer1 = setTimeout(() => {
+            if (!popup1.classList.contains('active') && !popup2.classList.contains('active')) {
+                smallIcon1.classList.add('active');
+            }
+        }, 3000);
+        
+        // Show second popup after first one closes
+        setTimeout(() => {
+            if (!popup1.classList.contains('active') && !popup2.classList.contains('active')) {
+                showPopup2();
+            }
+        }, 2000); // 2 second delay between popups
+    }
+    
+    // Show small icon for popup 2
+    function showSmallIcon2() {
+        hideAllPopups();
+        smallIcon2.classList.add('active');
+        
+        clearTimeout(iconTimer2);
+        iconTimer2 = setTimeout(() => {
+            if (!popup1.classList.contains('active') && !popup2.classList.contains('active')) {
+                smallIcon2.classList.add('active');
             }
         }, 3000);
     }
     
-    // Close popup and show small icon
-    function closeToIcon() {
-        showSmallIcon();
-    }
+    // Event Listeners for Popup 1
+    closePopup1.addEventListener('click', showSmallIcon1);
+    laterBtn1.addEventListener('click', showSmallIcon1);
     
-    // Event listeners
-    closePopup.addEventListener('click', closeToIcon);
-    laterBtn.addEventListener('click', closeToIcon);
-    
-    // Claim button - close popup but don't show icon immediately
-    claimBtn.addEventListener('click', function(e) {
+    closePopup1.addEventListener('touchend', function(e) {
         e.preventDefault();
-        popup.classList.remove('active');
-        document.body.style.overflow = '';
+        showSmallIcon1();
+    });
+    
+    laterBtn1.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        showSmallIcon1();
+    });
+    
+    // Event Listeners for Popup 2
+    closePopup2.addEventListener('click', showSmallIcon2);
+    laterBtn2.addEventListener('click', showSmallIcon2);
+    
+    closePopup2.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        showSmallIcon2();
+    });
+    
+    laterBtn2.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        showSmallIcon2();
+    });
+    
+    // Claim buttons for both popups
+    claimBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            hideAllPopups();
+            
+            // Show both small icons after 3 seconds
+            setTimeout(() => {
+                smallIcon1.classList.add('active');
+                smallIcon2.classList.add('active');
+            }, 3000);
+            
+            // Scroll to contact section
+            const contactSection = document.getElementById('contact');
+            if (contactSection) {
+                contactSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
         
-        // Show small icon after 3 seconds
-        setTimeout(() => {
-            smallIcon.classList.add('active');
-        }, 3000);
-        
-        // Scroll to contact section
-        const contactSection = document.getElementById('contact');
-        if (contactSection) {
-            contactSection.scrollIntoView({ behavior: 'smooth' });
-        }
+        btn.addEventListener('touchend', function(e) {
+            e.preventDefault();
+            this.click();
+        });
     });
     
     // Close when clicking outside popup content
-    popup.addEventListener('click', function(e) {
-        if (e.target === popup) {
-            closeToIcon();
-        }
+    [popup1, popup2].forEach(popup => {
+        popup.addEventListener('click', function(e) {
+            if (e.target === popup) {
+                if (popup === popup1) {
+                    showSmallIcon1();
+                } else {
+                    showSmallIcon2();
+                }
+            }
+        });
+        
+        popup.addEventListener('touchend', function(e) {
+            if (e.target === popup) {
+                e.preventDefault();
+                if (popup === popup1) {
+                    showSmallIcon1();
+                } else {
+                    showSmallIcon2();
+                }
+            }
+        });
+    });
+    
+    // Small icon clicks
+    smallIcon1.addEventListener('click', showPopup1);
+    smallIcon2.addEventListener('click', showPopup2);
+    
+    smallIcon1.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        showPopup1();
+    });
+    
+    smallIcon2.addEventListener('touchend', function(e) {
+        e.preventDefault();
+        showPopup2();
     });
     
     // Close with Escape key
     document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && popup.classList.contains('active')) {
-            closeToIcon();
+        if (e.key === 'Escape') {
+            if (popup1.classList.contains('active')) {
+                showSmallIcon1();
+            } else if (popup2.classList.contains('active')) {
+                showSmallIcon2();
+            }
         }
     });
     
-    // Small icon click - show full popup
-    smallIcon.addEventListener('click', function() {
-        showFullPopup();
-    });
-    
-    // Hide small icon when scrolling
+    // Hide small icons when scrolling
     let scrollTimer;
     window.addEventListener('scroll', function() {
-        smallIcon.classList.remove('active');
+        smallIcon1.classList.remove('active');
+        smallIcon2.classList.remove('active');
         clearTimeout(scrollTimer);
         scrollTimer = setTimeout(() => {
-            if (!popup.classList.contains('active')) {
-                smallIcon.classList.add('active');
+            if (!popup1.classList.contains('active') && !popup2.classList.contains('active')) {
+                smallIcon1.classList.add('active');
+                smallIcon2.classList.add('active');
             }
         }, 3000);
+    }, { passive: true });
+    
+    // Handle orientation change
+    window.addEventListener('orientationchange', function() {
+        setTimeout(() => {
+            if (popup1.classList.contains('active')) {
+                popup1.classList.remove('active');
+                setTimeout(() => popup1.classList.add('active'), 100);
+            } else if (popup2.classList.contains('active')) {
+                popup2.classList.remove('active');
+                setTimeout(() => popup2.classList.add('active'), 100);
+            }
+        }, 300);
     });
 });

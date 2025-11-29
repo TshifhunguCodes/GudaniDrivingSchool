@@ -369,3 +369,38 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 300);
     });
 });
+
+
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const service = document.getElementById('service').value;
+            const message = document.getElementById('message').value;
+            
+            // Format the message for WhatsApp
+            let whatsappMessage = `Hello! I'm interested in your driving services.%0A%0A`;
+            whatsappMessage += `*Name:* ${name}%0A`;
+            whatsappMessage += `*Phone:* ${phone}%0A`;
+            
+            if (service) {
+                const serviceText = document.querySelector(`#service option[value="${service}"]`).textContent;
+                whatsappMessage += `*Service Interested In:* ${serviceText}%0A`;
+            }
+            
+            if (message) {
+                whatsappMessage += `*Message:* ${message}%0A`;
+            }
+            
+            // Replace with your actual WhatsApp number (with country code, without + or 0)
+            // Example: 1234567890 for US number (1) 234-567-890
+            const whatsappNumber = "0681333036"; // CHANGE THIS TO YOUR ACTUAL NUMBER
+            
+            // Create WhatsApp URL
+            const whatsappURL = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
+            
+            // Open WhatsApp in a new tab
+            window.open(whatsappURL, '_blank');
+        });

@@ -396,7 +396,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Replace with your actual WhatsApp number (with country code, without + or 0)
             // Example: 1234567890 for US number (1) 234-567-890
-            const whatsappNumber = "0681333036"; // CHANGE THIS TO YOUR ACTUAL NUMBER
+            const whatsappNumber = "27681333036"; // CHANGE THIS TO YOUR ACTUAL NUMBER
             
             // Create WhatsApp URL
             const whatsappURL = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;

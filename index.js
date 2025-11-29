@@ -115,7 +115,7 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
     }
     
     // Your WhatsApp number
-    const whatsappNumber = "27681333036";
+    const whatsappNumber = "27729796169";
     const whatsappURL = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${whatsappMessage}`;
     
     // Show confirmation and open WhatsApp

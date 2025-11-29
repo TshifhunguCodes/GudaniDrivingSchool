@@ -1,4 +1,3 @@
-
 // Mobile Navigation Toggle
 const hamburger = document.getElementById('hamburger');
 const navMenu = document.getElementById('navMenu');
@@ -85,27 +84,43 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
-// Contact Form Handler
+// Contact Form Handler - WHATSAPP INTEGRATION
 document.getElementById('contactForm').addEventListener('submit', function(e) {
     e.preventDefault();
     
-    // Get form data
-    const formData = {
-        name: document.getElementById('name').value,
-        phone: document.getElementById('phone').value,
-        service: document.getElementById('service').value,
-        message: document.getElementById('message').value
-    };
+    // Get form values
+    const name = document.getElementById('name').value;
+    const phone = document.getElementById('phone').value;
+    const service = document.getElementById('service').value;
+    const message = document.getElementById('message').value;
     
     // Basic validation
-    if (!formData.name || !formData.phone) {
+    if (!name || !phone) {
         alert('Please fill in required fields: Name and Phone Number');
         return;
     }
     
-    // In a real application, you would send this data to a server
-    // For now, we'll just show a success message
-    alert('Thank you for your message, ' + formData.name + '! We will contact you soon at ' + formData.phone + '.');
+    // Format the message for WhatsApp
+    let whatsappMessage = ` Gudani Website Message Communique ✅ %0AHello! I'm interested in your driving services .%0A%0A`;
+    whatsappMessage += `*Name:* ${encodeURIComponent(name)}%0A`;
+    whatsappMessage += `*Phone Number:* ${encodeURIComponent(phone)}%0A`;
+    
+    if (service) {
+        const serviceText = document.querySelector(`#service option[value="${service}"]`).textContent;
+        whatsappMessage += `*Service Interested In:* ${encodeURIComponent(serviceText)}%0A`;
+    }
+    
+    if (message) {
+        whatsappMessage += `*Message:* ${encodeURIComponent(message)}%0A`;
+    }
+    
+    // Your WhatsApp number
+    const whatsappNumber = "27681333036";
+    const whatsappURL = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${whatsappMessage}`;
+    
+    // Show confirmation and open WhatsApp
+    alert('Thank you for your message, ' + name + '! You will be redirected to WhatsApp to send your message.');
+    window.open(whatsappURL, '_blank');
     
     // Reset form
     this.reset();
@@ -151,7 +166,6 @@ const observer = new IntersectionObserver((entries) => {
 document.querySelectorAll('.service-card, .pricing-card, .success-card').forEach(el => {
     observer.observe(el);
 });
-
 
 // Dual Popup Functionality
 document.addEventListener('DOMContentLoaded', function() {
@@ -368,38 +382,4 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }, 300);
     });
-});
-
-
- document.getElementById('contactForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    // Get form values
-    const name = document.getElementById('name').value;
-    const phone = document.getElementById('phone').value;
-    const service = document.getElementById('service').value;
-    const message = document.getElementById('message').value;
-    
-    // Format the message for WhatsApp with proper encoding
-    let whatsappMessage = `Hello! I'm interested in your driving services.%0A%0A`;
-    whatsappMessage += `*Name:* ${encodeURIComponent(name)}%0A`;
-    whatsappMessage += `*Phone Number:* ${encodeURIComponent(phone)}%0A`;
-    
-    if (service) {
-        const serviceText = document.querySelector(`#service option[value="${service}"]`).textContent;
-        whatsappMessage += `*Service Interested In:* ${encodeURIComponent(serviceText)}%0A`;
-    }
-    
-    if (message) {
-        whatsappMessage += `*Message:* ${encodeURIComponent(message)}%0A`;
-    }
-    
-    // Your WhatsApp number with country code
-    const whatsappNumber = "27681333036";
-    
-    // Create WhatsApp URL
-    const whatsappURL = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
-    
-    // Open WhatsApp in a new tab
-    window.open(whatsappURL, '_blank');
 });
